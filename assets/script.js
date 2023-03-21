@@ -41,7 +41,48 @@ var questionsList = [
              "1988"
          ],
          correct: "1990",
-     }
+     },
+     {
+        question:"Where was the first modern Olympic Games held? ",
+        anwsers:[
+            "Athens",
+            "Rome",
+            "Quebec"
+            "Boston"
+        ],
+        correct: "Athens, 1896",
+    },
+    {
+        question:"What was the clothing company Nike originally called?",
+        anwsers:[
+            "PHIL's PHEELS",
+            "NIKE",
+            "Blue Ribbon Sports"
+            "CHECKs"
+        ],
+        correct: "Blue Ribbon Sports",
+    },
+    {
+        question:"When was Netflix founded",
+        anwsers:[
+            "1994",
+            "1997",
+            "1995"
+            "2000"
+        ],
+        correct: "1997",
+    }, 
+    {
+        question:"Name Disney’s first film?",
+        anwsers:[
+            "pinnochio",
+            "snow white",
+            "little mermaid"
+            "TED"
+        ],
+        correct: "Snow White, 19370",
+    },
+
  
  ];
  
