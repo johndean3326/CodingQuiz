@@ -1,215 +1,239 @@
-var time = document.getElementById("Timer");
-var questions = document.getElementById("questions");
-var time = document.getElementById("Timer");
-var questions = document.getElementById("questions");
-var title = document.getElementById("Header");
-var startBtn = document.getElementById("startBtn");
-var container = document.getElementById("anwsers");
-var scoreHere = document.getElementById("score");
-var score = localStorage.getItem("score1");
-var initials = document.getElementById("scoreButton");
-var leaderboard = document.getElementById("hiScores");
-var questionsList = [
+const startButtonElement = document.getElementById('start-btn');
+const nextButtonElement = document.getElementById('next-btn');
+const questionContainerElement = document.getElementById('question-container');
+const questionElement = document.getElementById('question');
+const answerButtonsElement = document.getElementById('answer-buttons');
+const beginningTextElement = document.getElementById('start-text');
+const containerElement = document.getElementById('container');
+const endTextElement = document.getElementById('end-screen');
+const submitButtonElement = document.getElementById('submit-btn');
+const restartButtonElement = document.getElementById('restart')
+const endHeaderElement = document.getElementById('end-header');
+const scoresElement = document.getElementById('high-scores');
+const finalScoreElement = document.getElementById('final-score');
+const timerElement = document.getElementById('timer')
+var inputTextElement = document.getElementById('inputText');
+const ulElement = document.getElementById('ul');
+var score
+var time
+let shuffledQuestions, currentQuestionIndex;
+let p = document.createElement("p");
+let gameEnd = false;
+
+
+
+startButtonElement.addEventListener('click', startGame);
+
+ 
+ function setTime() {
+    var timerInterval = setInterval(function() {
+      time--;
+      timer.textContent = 'Time: ' + time
+  
+      if(time <= 0) {
+        clearInterval(timerInterval);
+        timer.textContent = 'Time: 0';
+        endGame();
+      } if (gameEnd) {
+        clearInterval(timerInterval);
+      }
+  
+    }, 1000);
+  }
+
+function startGame() {
+    startButtonElement.classList.add('hide');
+    questionContainerElement.classList.remove('hide');
+    beginningTextElement.classList.add('hide');
+    shuffledQuestions = questions.sort(() => Math.random() - .5);
+    currentQuestionIndex = 0;
+    score = 0;
+    gameEnd = false;
+    time = 120;
+    timer.textContent = 'Time: ' + time;
+    setTime();
+    setNextQuestion();   
+};
+
+function setNextQuestion() {
+    resetState();
+    showQuestion(shuffledQuestions[currentQuestionIndex]);
+};
+
+function showQuestion(question) {
+    questionElement.innerText = question.question;
+    question.answers.forEach(answer => {
+        const button = document.createElement('button')
+        button.innerText = answer.text
+        button.classList.add('btn')
+        if (answer.correct) {
+            button.dataset.correct = answer.correct
+        }
+        button.addEventListener('click', selectAnswer)
+        answerButtonsElement.appendChild(button)
+    })
+};
+
+function resetState() {
+    nextButtonElement.classList.add('hide');
+    while (answerButtonsElement.firstChild) {
+        answerButtonsElement.removeChild(answerButtonsElement.firstChild);
+    }
+}
+
+function selectAnswer(event) {
+    const selectedButtonElement = event.target;
+    const correct = selectedButtonElement.dataset.correct;
+    setStatusClass(document.body, correct);
+    Array.from(answerButtonsElement.children).forEach(button => {
+        setStatusClass(button, button.dataset.correct);
+    })
+    if (correct) {
+        score += 10;
+    } else {
+        time -= 15;
+    }
+    if (shuffledQuestions.length > currentQuestionIndex + 1) {
+    currentQuestionIndex++;
+    setNextQuestion();
+    } else {  
+       gameEnd = true; 
+       endGame();  
+    }
+};
+
+    function endGame () {
+        endTextElement.classList.remove('hide');
+        finalScoreElement.classList.remove('hide');
+        finalScoreElement.innerText = "Your final score is "+ score + " points." ;
+        questionContainerElement.classList.add('hide');
+        submitButtonElement.addEventListener('click', highScores);
+        
+        
+}
+
+function highScores() {
+    
+    scoresElement.classList.remove('hide');
+    endTextElement.classList.add('hide');
+    localStorage.setItem(inputTextElement.value, JSON.stringify(score));
+    while (ulElement.firstChild) {
+        ulElement.removeChild(ulElement.firstChild)
+    }
+    for (var i = 0, len = localStorage.length; i < len; ++i) {
+        JSON.parse(localStorage.getItem(localStorage.key (i)));
+        let liElement = document.createElement('li'); 
+        liElement.innerText = localStorage.key (i) + " : " + localStorage.getItem(localStorage.key (i));
+        ulElement.append(liElement);   
+    }
+
+
+    restartButtonElement.addEventListener('click', newGame);  
+}
+
+function newGame () {
+    beginningTextElement.classList.remove('hide');
+    startButtonElement.classList.remove('hide');
+    scoresElement.classList.add('hide');
+    endTextElement.classList.remove('hide');
+    endTextElement.classList.add('hide');
+    finalScoreElement.classList.add('hide');
+    inputTextElement.value = "";
+}
+
+function setStatusClass(element, correct) {
+    clearStatusClass(element);
+    if (correct) {
+        element.classList.add('correct')
+    } else {
+        element.classList.add('wrong')
+    }
+}; 
+
+function clearStatusClass(element) {
+    element.classList.remove('correct');
+    element.classList.remove('wrong');
+}
+
+const questions = [
     {
         question:"How many time zones are there in Russia",
-        anwsers:[
-            "4",
-            "9",
-            "2",
-            "11"
+        answers:[
+            { text: "4", correct: false },
+            { text: "9", correct: false },
+            { text: "2", correct: false },
+            { text: "11", correct: true },
         ],
-        correct: "11",
-    },
- 
+        
+    }, 
     {
          question:"What is the national flower of Japan?",
-         anwsers:[
-             "cherry blossom",
-             "lotus flower",
-             "orange bud",
-             "peace lilly"
+         answers:[
+            { text: "Cherry Blossom", correct: true },
+            { text: "Lotus Flower", correct: false },
+            { text: "Orange Bud", correct: false },
+            { text: "Peace Lilly", correct: false },
          ], 
-         correct: "cherry blossom",
-     },
- 
-     {
+        
+    }, 
+    {
          question:"What country has the most islands in the world?",
-         anwsers:[
-             "japan",
-             "sweden",
-             "philippines",
-             "usa"
+         answers:[
+            { text: "Japan", correct: false },
+            { text: "Sweden", correct: true },
+            { text: "Philippines", correct: false },
+            { text: "USA", correct: false },            
          ],
-         correct: "sweden, 220,000",
-     },
- 
-     {
+          
+    }, 
+    {
          question:"What year was the world wide web created",
-         anwsers:[
-             "1989",
-             "1991",
-             "1990",
-             "1988"
+         answers:[
+            { text: "1989", correct: false },
+            { text: "1991", correct: false },
+            { text: "1990", correct: true },
+            { text: "1988", correct: false },
          ],
-         correct: "1990",
-     },
-     {
+    },
+    {
         question:"Where was the first modern Olympic Games held? ",
-        anwsers:[
-            "Athens",
-            "Rome",
-            "Quebec",
-            "Boston"
+        answers:[
+        { text: "Athens", correct: true },
+        { text: "Rome", correct: false },
+        { text: "Quebec", correct: false },
+        { text: "Boston", correct: false },
         ],
-        correct: "Athens, 1896",
+       
     },
     {
         question:"What was the clothing company Nike originally called?",
-        anwsers:[
-            "PHIL's PHEELS",
-            "NIKE",
-            "Blue Ribbon Sports",
-            "CHECKs"
+        answers:[
+        { text: "PHIL's PHEELS", correct: false },
+        { text: "NIKE", correct: false },
+        { text: "Blue Ribbon Sports", correct: true },
+        { text: "CHECKS", correct: false },
+        
         ],
-        correct: "Blue Ribbon Sports",
+        
     },
     {
         question:"When was Netflix founded",
-        anwsers:[
-            "1994",
-            "1997",
-            "1995",
-            "2000"
+        answers:[
+        { text: "1994", correct: false },
+        { text: "1997", correct: true },
+        { text: "1995", correct: false },
+        { text: "2000", correct: false },
         ],
-        correct: "1997",
+        
     }, 
     {
         question:"Name Disney’s first film?",
-        anwsers:[
-            "pinnochio",
-            "snow white",
-            "little mermaid",
-            "TED"
+        answers:[
+        { text: "Pinnochio", correct: false },
+        { text: "Snow White", correct: true },
+        { text: "Little Mermaid", correct: false },
+        { text: "TED", correct: false },
         ],
-        correct: "Snow White, 19370",
     },
 
- 
  ];
- 
-
-startBtn.addEventListener('click', startQuiz);
-
-function startQuiz() {
-    startBtn.classList.add('hide');
-    questions.classList.remove('hide');
-    anwsers.classList.remove('hide');
-    questionsList[0];
-    Countdown();
-    console.log("its working");
-    displayQuestion();
-    displayButton();
-    score = 0;
-}
-
-function displayButton() {
-    container.innerHTML = " ";
-    
-    for (var i = 0; i < questionsList[currentQuestion].anwsers.length; i++){
-       var anwserButtons = document.createElement("button");
-       anwserButtons.textContent = questionsList[currentQuestion].anwsers[i];
-       anwserButtons.setAttribute("onclick", "nextQuestion(event)");
-       container.appendChild(anwserButtons);
-    }
-
-}
-
-function displayQuestion() {
-    questions.innerHTML = " ";
-    
-    for (var i = 0; i < questionsList[currentQuestion].question.length; i++){
-        var theQuestion = document.createElement("p");
-        theQuestion.textContent = questionsList[currentQuestion].question[i];
-        theQuestion.setAttribute("onclick", "nextQuestion(event)");
-        questions.appendChild(theQuestion);
-     }
-
-}
-
-function nextQuestion(event){
-    var anwserChosen = event.target.innerHTML;
-    if (anwserChosen === questionsList[currentQuestion].correct){
-        score++;
-        console.log(score);
-        localStorage.setItem("score1", score);
-    } else {
-        secondsLeft-= 10;
-    }
-    if(currentQuestion >= 3){
-        console.log("finish");
-        secondsLeft = 0;
-        endGame();
-    }
-    currentQuestion++;
-    displayButton();
-    displayQuestion();
-    
-}
-
-function Countdown() {
-
-
-    secondsLeft = 59;
-
-   var counter = setInterval(function() {
-   if (secondsLeft >= 1){
-       secondsLeft--;
-       time.textContent = secondsLeft + " seconds left";
-   }
-   if (secondsLeft == 0) {
-       time.textContent = '';        
-       clearInterval(counter);
-       endGame();
-   }
-   }, 1000);
-}
-
-var initialsInput = document.querySelector("#initials");
-var leaderboardlist = document.querySelector("#list")
-var submitButton = document.querySelector("#submitIn");
-
-
-function displayLeaderboard(){
-   scoreButton.classList.add('hide');
-   var initials2 = localStorage.getItem("initials");
-   leaderboardlist.textContent = initials2 + score;
-}
-
-function scoreButton() {
-   initials.classList.remove('hide');
-}
-
-submitButton.addEventListener("click", function(event2)  {
-   event2.preventDefault();
-   localStorage.setItem("initials", initials)
-   displayLeaderboard();
-});
-
-function score1() {
-   scoreHere.textContent = "Your score is " + score;
-
-   scoreButton();
-   displayLeaderboard();
-}
-
-function endGame() {
-   startBtn.classList.add('hide');
-   questions.classList.add('hide');
-   anwsers.classList.add('hide');
-   scoreHere.classList.remove('hide');
- 
-
-   console.log("game ended");
-   score1()
-}
-

@@ -1,59 +1,59 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Johns RANDOM Quiz</title>
-
-    <link rel="stylesheet" href="./assets/styles.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Johns Random Quiz</title>
+  <link rel="stylesheet" href="./assets/styles.css">
 </head>
+
 <body>
-   <div class="header" id="Header">
+    <header>
+        <h1> Test your Random knowledge! </h1>
+        <h1 id="timer">Time: </h1>
+    </header>
+        
+    <section class="container">
+        
+        <section id="question-container" class="hide">  
+        <section id="question">Question</section>    
+        <section id="answer-buttons" class="btn-grid">
+                <button class="btn">Answer 1</button>
+                <button class="btn">Answer 2</button>
+                <button class="btn">Answer 3</button>
+                <button class="btn">Answer 4</button>
+        </section>
+      
+    </section>
     
-    <h1>WANT TO PLAY A GAME?! </h1>
-    
-    </div> 
-
-    <div class="startBtn" id="startBtn">
-        <button>PLAY</button>
-    </div>
-
-    <div class = "timer" id = "Timer"></div> 
-   
-    <div class ="quiz" id="Quiz hide"></div>
-        <div id = "questions" class ="qs hide"></div>
-            <div id = "anwsers" class = "as hide"></div>            
-            <div class="score hide" id = "score"></div>
-            <div class ="scoreButton hide" id = "scoreButton">
-                <br>
-                <label for="initials">Initials</label>
-                <br>
-                <input type="text" name = "Initials" id = "initials" placeholder="ex.(OGJD)" />
-                <br>
-                <button class ="submitIn">SUBMIT</button>
-            </div>
-            <div class="scoreBoard hide" id="scoreBoard">
-                <h2>Scores:</h2>
-                <ol class ="list"></ol>
-            </div>
-
-
+    <section id="end-screen" class="hide">
+        <h3>How'd You Do</h3>
+        <p id="final-score" class="hide"></p>
+            <article>
+                <p>Enter initials: <input id="inputText"></input> <button id="submit-btn">Submit</button></p>
+             </article>
+        
+    </section>
+    <section id="high-scores" class="hide">
+        <h3 >High Scores</h3>
+            <ul id="ul">
                 
-    
 
-    <script src="./assets/script.js"></script>
+            
+                
+            </ul>
+        <Button id="restart">Restart</Button>
+    </section>
+
+    <h3 id="start-text">Want To Play A Game?</h3>
+    <section class="controls">
+    <button id="start-btn" class="start-btn btn">Begin!</button>
+    <button id="next-btn" class="next-btn btn hide">Next</button>
+    </section>           
+</section>
+
+
+<script src="./assets/script.js"></script>
 </body>
-</html>
-
-    <!-- <div class="card" style="width: 18rem;">
-        <div class="card-header">
-          Question
-        </div>
-        <ul class="list-group list-group-flush">
-            <button type="button" class="btn btn-primary">Answer 1</button>
-            <button type="button" class="btn btn-primary">Answer 2</button>
-            <button type="button" class="btn btn-primary">Answer 3</button>
-            <button type="button" class="btn btn-primary">Answer 4</button>
-        </ul>
-      </div> -->
