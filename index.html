@@ -7,11 +7,13 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Johns Random Quiz</title>
   <link rel="stylesheet" href="./assets/styles.css">
-  <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
 </head>
 
 <body>
+    <!-- start quiz -->
    <div class="start_btn"><button>BEGIN!</button></div>
+<!-- Rules box -->
    <div class="rules_box">
     <div class="rules_title">
         <span>Some Rules:</span>
@@ -22,55 +24,51 @@
         <div class="info">Once you run out of time you, cant make any selections.</div>
         <div class="info">You cant exit the quiz once you start.</div>
         <div class="info">Points are earned by selecting correct answers.</div>
-
+    </div>
    </div>
    <div class="buttons">
     <button class="quit">Exit Quiz</button>
     <button class="restart">Continue</button>
    </div>
+   </div>
+<div class="quiz_box"></div>
+<header>
+    <div class="title">Random Knowledge Quiz</div>
+    <div class="timer">
+        <div class="time_text">Time Remaining</div>
+        <div class="timer_sec">15</div>
 </div>
-
-   <!-- </div>
-        
-    <section class="container">
-        
-        <section id="question_container" class="hide">  
-        <section id="question">Question</section>    
-        <section id="answer-buttons" class="btn-grid">
-                <button class="btn">Answer 1</button>
-                <button class="btn">Answer 2</button>
-                <button class="btn">Answer 3</button>
-                <button class="btn">Answer 4</button>
-        </section>
-      
-    </section>
+</header>
+<section>
     
-    <section id="end-screen" class="hide">
-        <h3>How'd You Do</h3>
-        <p id="final-score" class="hide"></p>
-            <article>
-                <p>Enter initials: <input id="inputText"></input> <button id="submit-btn">Submit</button></p>
-             </article>
-        
-    </section>
-    <section id="high-scores" class="hide">
-        <h3 >High Scores</h3>
-            <ul id="ul">
-                
-
-            
-                
-            </ul>
-        <Button id="restart">Restart</Button>
-    </section>
-
-    <h3 id="start-text">Want To Play A Game?</h3>
-    <section class="controls">
-    <button id="start_btn" class="start_btn btn">Begin!</button>
-    <button id="next-btn" class="next-btn btn hide">Next</button>
-    </section>           
-</section>
- -->
-
-<script src="./assets/script.js"></script>
+    <div class="que_text">
+   <span>How many time zones are there in Russia?</span> 
+</div>
+<div class="option_list">
+<div class="option">
+    <span>4</span>
+    <div class="icon cross"><i class="fa-sharp fa-solid fa-xmark"></i></div>
+</div>
+<div class="option">
+    <span>11</span>
+    <div class="icon tick"><i class="fa-sharp fa-solid fa-check"></i></div>
+</div>
+<div class="option">
+    <span>9</span>   
+</div>
+<div class="option">
+    <span>2</span>    
+</div>
+</div>
+</section> 
+<footer>
+    <div class="total_ques"></div>
+    <span><p>1</p>of<p>5</p>Questions</span>
+</div>
+<button class="next_btn">Next</button>
+</footer>   
+</div>
 </body>
+</html>
+
+  

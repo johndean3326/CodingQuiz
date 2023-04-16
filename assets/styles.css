@@ -15,7 +15,9 @@ body {
 }
 
 .start_btn,
-.rules_box{
+.rules_box,
+.quiz_box
+{
     position: absolute;
     top: 50%;
     left: 50%;
@@ -34,6 +36,7 @@ cursor: pointer;
 ;
 }
 .rules_box{
+    display: none;
     width: 540px;
     background: #f8f8f8;
     border-radius: 10px;
@@ -95,7 +98,39 @@ cursor: pointer;
 .buttons button.restart:hover{
     background: lightblue;;
 }
-
-
-
-
+.quiz_box{
+    width: 550px;
+    background: #d1eef7;
+    border-radius: 5px;
+}
+.quiz_box header{
+    height: 70px;
+    padding: 0 30px;
+    background: #d1eef7;
+    display: flex;  
+    align-items: center;
+    justify-content: space-between;
+}
+.quiz_box header .title{
+    font-size: 20px;
+    font-weight: 600;
+}
+.quiz_box header .timer{
+display: flex;
+align-items: center; 
+justify-content: space-between;
+width: 145px;
+height: 45px;
+background: #d1eef7; 
+border: 1px solid lightblue;
+border-radius: 20px;
+padding: 0 8px;
+}
+.quiz_box header .timer .time_text{
+    font-weight: 400;
+    font-size: 20px;
+    user-select: none;
+}
+.quiz_box header .timer_sec{
+    
+}
