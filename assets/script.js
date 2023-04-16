@@ -1,45 +1,40 @@
-const startButtonElement = document.getElementById('start-btn');
-const nextButtonElement = document.getElementById('next-btn');
-const questionContainerElement = document.getElementById('question-container');
-const questionElement = document.getElementById('question');
-const answerButtonsElement = document.getElementById('answer-buttons');
-const beginningTextElement = document.getElementById('start-text');
-const containerElement = document.getElementById('container');
-const endTextElement = document.getElementById('end-screen');
-const submitButtonElement = document.getElementById('submit-btn');
-const restartButtonElement = document.getElementById('restart')
-const endHeaderElement = document.getElementById('end-header');
-const scoresElement = document.getElementById('high-scores');
-const finalScoreElement = document.getElementById('final-score');
-const timerElement = document.getElementById('timer')
-var inputTextElement = document.getElementById('inputText');
-const ulElement = document.getElementById('ul');
-var score
-var time
-let shuffledQuestions, currentQuestionIndex;
-let p = document.createElement("p");
-let gameEnd = false;
 
 
 
-startButtonElement.addEventListener('click', startGame);
+// !!!!!!!!!!!!!!!!!!!!!!!!.addEventListener('click', startGame);
 
- 
- function setTime() {
-    var timerInterval = setInterval(function() {
-      time--;
-      timer.textContent = 'Time: ' + time
+ var interval;
+
+function countdown() {
+    clearInterval(interval);
+    interval = setInterval( function() {
+        var timer = $('.js-timeout').html();
+        timer = timer.split(':');
+        var minutes = timer[0];
+        var seconds = timer[1];
+        seconds -= 1;
+        if (minutes < 0) return;
+        else if (seconds < 0 && minutes != 0) {
+            minutes -= 1;
+            seconds = 59;
+        }
+        else if (seconds < 10 && length.seconds != 2) seconds = '0' + seconds;
   
-      if(time <= 0) {
-        clearInterval(timerInterval);
-        timer.textContent = 'Time: 0';
-        endGame();
-      } if (gameEnd) {
-        clearInterval(timerInterval);
-      }
+        $('.js-timeout').html(minutes + ':' + seconds);
   
+        if (minutes == 0 && seconds == 0) clearInterval(interval);
     }, 1000);
   }
+  
+  $('#js-startTimer').click(function () {
+    $('.js-timeout').text("2:00");
+    countdown();
+  });
+  
+  $('#js-resetTimer').click(function () {
+    $('.js-timeout').text("2:00");
+    clearInterval(interval);
+  });
 
 function startGame() {
     startButtonElement.classList.add('hide');
