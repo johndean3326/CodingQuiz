@@ -1,234 +1,182 @@
+const start_btn = document.querySelector(".start_btn button");
+const rules_box = document.querySelector(".rules_box");
+const exit_btn = rules_box.querySelector(".buttons .quit");
+const continue_btn = rules_box.querySelector(".buttons .restart");
+const quiz_box = document.querySelector(".quiz_box");
+const timeCount = quiz_box.querySelector(".timer .timer_sec");
+const timeLine = quiz_box.querySelector(".header .time_line");
+const timeOff = quiz_box.querySelector(".header .time_text");
 
 
+start_btn.onclick = ()=>{
+    rules_box.classList.add("activeInfo");
+}
+exit_btn.onclick = ()=>{
+    info_box.classList.remove("activeInfo");
+}
+continue_btn.onclick = ()=>{
+    info_box.classList.remove("activeInfo");
+    quiz_box.classList.add("activeQuiz")
+    showQuestions(0);
+}
 
-// !!!!!!!!!!!!!!!!!!!!!!!!.addEventListener('click', startGame);
+let que_count = 0;
+let que_numb =1;
+let counter;
+let counterLine
+let timeValue =15;
+let widthValue =0;
+let userScore =0;
 
- var interval;
+const next_btn = quiz_box.querySelector(".next_btn");
+const results = document.querySelector(".results");
+const restart_quiz = results.querySelector(".buttons .restart");
+const quit_quiz = results.querySelector(".buttons .quit");
 
-function countdown() {
-    clearInterval(interval);
-    interval = setInterval( function() {
-        var timer = $('.js-timeout').html();
-        timer = timer.split(':');
-        var minutes = timer[0];
-        var seconds = timer[1];
-        seconds -= 1;
-        if (minutes < 0) return;
-        else if (seconds < 0 && minutes != 0) {
-            minutes -= 1;
-            seconds = 59;
+restart_quiz.onclick = ()=>{
+    quiz_box.classList.add("activeQuiz"); //show quiz box
+    results.classList.remove("activeResult"); //hide result box
+    timeValue = 15; 
+    que_count = 0;
+    que_numb = 1;
+    userScore = 0;
+    widthValue = 0;
+    showQuestions(que_count); //calling showQuestions function
+    total_que(que_numb); //passing que_numb value to queCounter
+    clearInterval(counter); //clear counter
+    clearInterval(counterLine); //clear counterLine
+    startTimer(timeValue); //calling startTimer function
+    startTimerLine(widthValue); //calling startTimerLine function
+    timeText.textContent = "Time Left"; //change the text of timeText to Time Left
+    next_btn.classList.remove("show"); //hide the next button
+}
+
+quit_quiz.onclick =()=>{
+    window.location.reload();
+}
+
+next_btn.onclick =()=>{
+    if(que_count > questions.length -1){
+    que_count++;
+    que_numb++;
+    showQuestions(que_count);
+    queCounter(que_numb);
+    clearInterval(counter);
+    startTimer(timeValue);
+    clearInterval(counterLine);
+    startTimerLine(widthValue);
+    }else{
+    console.log("Questions Completed");
+}
+}
+function showQuestions(index){
+    const que_text = document.querySelector(".que_text");
+    const option_list = document.querySelector(".option_list");
+        let que_tag ='<span>' + questions[index].questions + '</span>';
+        let option_tag = '<div class="option">'+ questions[index].options[0] +'<span></span></div>'
+                        + '<div class="option">'+ questions[index].options[1] +'<span></span></div>'
+                        + '<div class="option">'+ questions[index].options[2] +'<span></span></div>'
+                        + '<div class="option">'+ questions[index].options[3] +'<span></span></div>';
+
+    que_text.innerHTML = que_tag;
+    option_list.innerHTML = option_tag;
+}
+
+
+function optionSelected(answer){
+    clearInterval(counter);
+    clearInterval(counterLine);
+    let userAns = answer.textContent;
+    let correctAns = questions[que_count].answer;
+    let allOptions = option_list.children.length;
+    if(userAns == correctAns){
+        userScore += 1;
+        console.log(userScore)
+        answer.classList.add("correct");
+        console.log("Answer is Correct");
+        answer.insertAdjacentHTML("beforeend", tickIcon);
+    }
+    else{
+        answer.classList.add("incorrect");
+        console.log("wrong answer")
+        answer.insertAdjacentHTML("beforeend", crossIcon);
+
+        
+    for (let i = 0; i < allOptions; ii++) {
+        if(option_list.children[i].textContent == correctAns){
+            option_list.children[i].setAttribute("class", "option correct");
+            option_list.children[i].insertAdjacentHTML("beforeend", tickIcon);
         }
-        else if (seconds < 10 && length.seconds != 2) seconds = '0' + seconds;
-  
-        $('.js-timeout').html(minutes + ':' + seconds);
-  
-        if (minutes == 0 && seconds == 0) clearInterval(interval);
-    }, 1000);
-  }
-  
-  $('#js-startTimer').click(function () {
-    $('.js-timeout').text("2:00");
-    countdown();
-  });
-  
-  $('#js-resetTimer').click(function () {
-    $('.js-timeout').text("2:00");
-    clearInterval(interval);
-  });
+    }
+    for (let i = 0; i < allOptions; i++) {
+        option_list.children[i].classList.add("disabled");    
+    next_btn.style.display = "block";
+}
+}
+}
 
-function startGame() {
-    startButtonElement.classList.add('hide');
-    questionContainerElement.classList.remove('hide');
-    beginningTextElement.classList.add('hide');
-    shuffledQuestions = questions.sort(() => Math.random() - .5);
-    currentQuestionIndex = 0;
-    score = 0;
-    gameEnd = false;
-    time = 120;
-    timer.textContent = 'Time: ' + time;
-    setTime();
-    setNextQuestion();   
-};
-
-function setNextQuestion() {
-    resetState();
-    showQuestion(shuffledQuestions[currentQuestionIndex]);
-};
-
-function showQuestion(question) {
-    questionElement.innerText = question.question;
-    question.answers.forEach(answer => {
-        const button = document.createElement('button')
-        button.innerText = answer.text
-        button.classList.add('btn')
-        if (answer.correct) {
-            button.dataset.correct = answer.correct
+function showResults(){
+    rules_box.classList.remove("activeInfo");
+    quiz_box.remove("activeQuiz");
+    results.classList.add("active result");
+    const scoreText =results.querySelector(".score_text");
+    if(userScore > 5){
+        let scoreTag = '<span>Awesome! You got <p>' + userScore + '</p> out of <p>' + questions.length +'</p><?span>';
+        scoreText.innerHTML = scoreTag;    
+    }
+    else if(userScore > 3){
+        let scoreTag = '<span>OK! You got <p>' + userScore + '</p> out of <p>' + questions.length +'</p><?span>';
+        scoreText.innerHTML = scoreTag;
+    }
+    else{
+        let scoreTag = '<span>Oops! You only got <p>' + userScore + '</p> out of <p>' + questions.length +'</p><?span>';
+        scoreText.innerHTML = scoreTag;
+    }
+}
+function startTimer(time){
+    counter = setInterval(timer, 1000);
+    function timer(){
+        timeCount.textContent = time;
+        time--;
+        if(time < 9){
+            let addZero = timeCount.textContent;
+            timeCount.textContent = "0" + addZero;
         }
-        button.addEventListener('click', selectAnswer)
-        answerButtonsElement.appendChild(button)
-    })
-};
+        if(time < 0){
+            clearInterval(counter);
+            timeCount.textContent = "00";
+            timeOff.textContent= "time off"
 
-function resetState() {
-    nextButtonElement.classList.add('hide');
-    while (answerButtonsElement.firstChild) {
-        answerButtonsElement.removeChild(answerButtonsElement.firstChild);
+            let correctAns = questions[que_count].answer;
+            let allOptions = option_list.children.length;
+
+            for (let i = 0; i < allOptions; ii++) {
+                if(option_list.children[i].textContent == correctAns){
+                    option_list.children[i].setAttribute("class", "option correct");
+                    option_list.children[i].insertAdjacentHTML("beforeend", tickIcon);
+                }
+            }
+        
+            for (let i = 0; i < allOptions; i++) {
+                option_list.children[i].classList.add("disabled");
+            }
+            next_btn.style.display = "block";
+            }
     }
 }
 
-function selectAnswer(event) {
-    const selectedButtonElement = event.target;
-    const correct = selectedButtonElement.dataset.correct;
-    setStatusClass(document.body, correct);
-    Array.from(answerButtonsElement.children).forEach(button => {
-        setStatusClass(button, button.dataset.correct);
-    })
-    if (correct) {
-        score += 10;
-    } else {
-        time -= 15;
+function startTimerLine(time){
+    counterLine = setInterval(timer, 29);
+    function timer(){
+        time += 1;
+        timeLine.style.width = time + "px";
+        if(time > 549){
+            clearInterval(counterLine);
+        }
     }
-    if (shuffledQuestions.length > currentQuestionIndex + 1) {
-    currentQuestionIndex++;
-    setNextQuestion();
-    } else {  
-       gameEnd = true; 
-       endGame();  
-    }
-};
-
-    function endGame () {
-        endTextElement.classList.remove('hide');
-        finalScoreElement.classList.remove('hide');
-        finalScoreElement.innerText = "Your final score is "+ score + " points." ;
-        questionContainerElement.classList.add('hide');
-        submitButtonElement.addEventListener('click', highScores);
-        
-        
 }
-
-function highScores() {
-    
-    scoresElement.classList.remove('hide');
-    endTextElement.classList.add('hide');
-    localStorage.setItem(inputTextElement.value, JSON.stringify(score));
-    while (ulElement.firstChild) {
-        ulElement.removeChild(ulElement.firstChild)
-    }
-    for (var i = 0, len = localStorage.length; i < len; ++i) {
-        JSON.parse(localStorage.getItem(localStorage.key (i)));
-        let liElement = document.createElement('li'); 
-        liElement.innerText = localStorage.key (i) + " : " + localStorage.getItem(localStorage.key (i));
-        ulElement.append(liElement);   
-    }
-
-
-    restartButtonElement.addEventListener('click', newGame);  
+function queCounter(index){
+    //creating a new span tag and passing the question number and total question
+    let totalQueCountTag = '<span><p>'+ index +'</p> of <p>'+ questions.length +'</p> Questions</span>';
+    bottom_ques_counter.innerHTML = totalQueCountTag;  //adding new span tag inside bottom_ques_counter
 }
-
-function newGame () {
-    beginningTextElement.classList.remove('hide');
-    startButtonElement.classList.remove('hide');
-    scoresElement.classList.add('hide');
-    endTextElement.classList.remove('hide');
-    endTextElement.classList.add('hide');
-    finalScoreElement.classList.add('hide');
-    inputTextElement.value = "";
-}
-
-function setStatusClass(element, correct) {
-    clearStatusClass(element);
-    if (correct) {
-        element.classList.add('correct')
-    } else {
-        element.classList.add('wrong')
-    }
-}; 
-
-function clearStatusClass(element) {
-    element.classList.remove('correct');
-    element.classList.remove('wrong');
-}
-
-const questions = [
-    {
-        question:"How many time zones are there in Russia",
-        answers:[
-            { text: "4", correct: false },
-            { text: "9", correct: false },
-            { text: "2", correct: false },
-            { text: "11", correct: true },
-        ],
-        
-    }, 
-    {
-         question:"What is the national flower of Japan?",
-         answers:[
-            { text: "Cherry Blossom", correct: true },
-            { text: "Lotus Flower", correct: false },
-            { text: "Orange Bud", correct: false },
-            { text: "Peace Lilly", correct: false },
-         ], 
-        
-    }, 
-    {
-         question:"What country has the most islands in the world?",
-         answers:[
-            { text: "Japan", correct: false },
-            { text: "Sweden", correct: true },
-            { text: "Philippines", correct: false },
-            { text: "USA", correct: false },            
-         ],
-          
-    }, 
-    {
-         question:"What year was the world wide web created",
-         answers:[
-            { text: "1989", correct: false },
-            { text: "1991", correct: false },
-            { text: "1990", correct: true },
-            { text: "1988", correct: false },
-         ],
-    },
-    {
-        question:"Where was the first modern Olympic Games held? ",
-        answers:[
-        { text: "Athens", correct: true },
-        { text: "Rome", correct: false },
-        { text: "Quebec", correct: false },
-        { text: "Boston", correct: false },
-        ],
-       
-    },
-    {
-        question:"What was the clothing company Nike originally called?",
-        answers:[
-        { text: "PHIL's PHEELS", correct: false },
-        { text: "NIKE", correct: false },
-        { text: "Blue Ribbon Sports", correct: true },
-        { text: "CHECKS", correct: false },
-        
-        ],
-        
-    },
-    {
-        question:"When was Netflix founded",
-        answers:[
-        { text: "1994", correct: false },
-        { text: "1997", correct: true },
-        { text: "1995", correct: false },
-        { text: "2000", correct: false },
-        ],
-        
-    }, 
-    {
-        question:"Name Disney’s first film?",
-        answers:[
-        { text: "Pinnochio", correct: false },
-        { text: "Snow White", correct: true },
-        { text: "Little Mermaid", correct: false },
-        { text: "TED", correct: false },
-        ],
-    },
-
- ];
