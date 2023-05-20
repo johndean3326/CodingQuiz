@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Raleway&display=swap');
+  /* @import url('https://fonts.googleapis.com/css2?family=Raleway&display=swap');
 * {
     margin: 0;
     padding: 0;
@@ -8,10 +8,8 @@ body {
     background: #eeeeea;
     
 }
-.start_btn,
-.rules_box,
-.quiz_box,
-.results{
+.start_btn .rules_box .quiz_box .results
+{
     position: absolute;
     top: 50%;
     left: 50%;
@@ -20,13 +18,15 @@ body {
                 0px 6px 20px 0 rgb(51, 53, 53);
                 transition: all 0.3s ease;
 }
-.rules_box.activeInfo{
+.rules_box .activeInfo{
+    display: block;
     z-index: 5;
     opacity: 1;
     pointer-events: auto;
     transform: translate(-50%, -50%) scale(1);
 }
-.quiz_box.activeQuiz{
+.quiz_box .activeQuiz{
+    display: block;
     z-index: 5;
     opacity: 1;
     pointer-events: auto;
@@ -71,7 +71,7 @@ cursor: pointer;
     margin: 5px 0;
     font-size: 20px;
 }
-.rules_box .info_list .info span{
+.rules_box .info_list .info .span{
     font-weight: 600;
     color: #23af46;
 }
@@ -83,7 +83,7 @@ cursor: pointer;
     padding: 0 35px;
     border-top: 1px solid lightblue;
 }
-.rules_box .buttons button{
+.rules_box .buttons .button{
     margin: 0 5px;
     height: 40px;
     width: 100px;
@@ -111,7 +111,7 @@ cursor: pointer;
     background: lightblue;;
 }
 .quiz_box{
-    display: none;
+    display: block;
     width: 550px;
     background: #d1eef7;
     border-radius: 20px;
@@ -250,7 +250,7 @@ footer .next_btn:hover{
     width: 450px;
     padding: 25px 30px;
     border: radius 20px; 
-    display: flex;
+    display: none;
     text-align: center;
     align-items: center;
     flex-direction: column;
@@ -310,3 +310,10 @@ footer .next_btn:hover{
     color: #fff;
     background: #23af46;
 }
+*/
+.activeInfo {
+    display: block;
+}
+.activeQuiz {
+    display:block;
+}  
