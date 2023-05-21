@@ -14,7 +14,7 @@ At the end of the quiz, the user is shown their score and is also able to enter 
 The highscores page will show the score of each unique initial entered. 
 
 ## Screen Shots
-<img src = "img\2023-04-17.png">
+<img src = "img\2023-05-20 (1).png">
 
 
 ## Links
