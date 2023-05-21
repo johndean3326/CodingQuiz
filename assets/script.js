@@ -5,7 +5,7 @@ const continue_btn = document.querySelector(".restart");
 const quiz_box = document.querySelector(".quiz_box");
 const timeCount = document.querySelector(".timer_sec");
 const timeLine = document.querySelector(".time_line");
-const timeOff = document.querySelector(".time_text");
+const timeOff = document.querySelector(".time_left_text");
 
 
 start_btn.onclick = ()=>{
@@ -29,21 +29,24 @@ let timeValue =15;
 let widthValue =0;
 let userScore =0;
 
-const next_btn = quiz_box.querySelector(".next_btn");
+function total_que (que_numb){
+    console.log(que_numb)
+}
+const next_btn = document.querySelector(".next_btn");
 const results = document.querySelector(".results");
-const restart_quiz = results.querySelector(".buttons .restart");
-const quit_quiz = results.querySelector(".buttons .quit");
+const restart_quiz = document.querySelector(".restart");
+const quit_quiz = document.querySelector(".buttons .quit");
 const timeText = document.querySelector(".time_left_txt");
 restart_quiz.onclick = ()=>{
     quiz_box.classList.add("activeQuiz"); //show quiz box
-    // results.classList.removeAttribute("activeResult"); //hide result box
+    results.classList.remove("activeResult"); //hide result box
     timeValue = 15; 
     que_count = 0;
     que_numb = 1;
     userScore = 0;
     widthValue = 0;
     showQuestions(que_count); //calling showQuestions function
-    // total_que(que_numb); //passing que_numb value to queCounter
+    total_que(que_numb); //passing que_numb value to queCounter
     clearInterval(counter); //clear counter
     clearInterval(counterLine); //clear counterLine
     startTimer(timeValue); //calling startTimer function
@@ -69,18 +72,48 @@ next_btn.onclick =()=>{
     }else{
     console.log("Questions Completed");
 }
+}                    
+function handleBtnClick (event)
+{
+    event.preventDefault()
+    
+        let correctAns = questions[que_count].answer;
+        console.log(correctAns)
+        let selectedOption = event.target.innerHTML;
+        if (parseInt(selectedOption) === parseInt(correctAns)){
+            
+            userScore += 1;
+            console.log(userScore)
+            que_count = que_count +1
+            showQuestions(que_count)
+        } else {
+            que_count = que_count +1
+            showQuestions(que_count)
+        
+        }
+
+    
+    
+    
+    
 }
-function showQuestions(index){
+    function showQuestions(index){
+        if (que_count < questions.length){
     const que_text = document.querySelector(".que_text");
     const option_list = document.querySelector(".option_list");
-        let que_tag ='<span>' + questions[index].questions + '</span>';
-        let option_tag = '<div class="option">'+ questions[index].options[0] +'<span></span></div>'
-                        + '<div class="option">'+ questions[index].options[1] +'<span></span></div>'
-                        + '<div class="option">'+ questions[index].options[2] +'<span></span></div>'
-                        + '<div class="option">'+ questions[index].options[3] +'<span></span></div>';
+    que_text.innerHTML = "";
+    option_list.innerHTML = "";
+        let que_tag ='<span>' + questions[index].question + '</span>';
+        let option_tag = '<button onclick="handleBtnClick(event)" class="option">'+ questions[index].options[0] +'<span></span></button>'
+                        + '<button onclick="handleBtnClick(event)" class="option">'+ questions[index].options[1] +'<span></span></button>'
+                        + '<button onclick="handleBtnClick(event)" class="option">'+ questions[index].options[2] +'<span></span></button>'
+                        + '<button onclick="handleBtnClick(event)" class="option">'+ questions[index].options[3] +'<span></span></button>';
 
     que_text.innerHTML = que_tag;
     option_list.innerHTML = option_tag;
+} else {
+    alert("quiz questions ended")
+}
 }
 
 
@@ -88,7 +121,7 @@ function optionSelected(answer){
     clearInterval(counter);
     clearInterval(counterLine);
     let userAns = answer.textContent;
-    let correctAns = questions[que_count].answer;
+    let correctAns = question[que_count].answer;
     let allOptions = option_list.children.length;
     if(userAns == correctAns){
         userScore += 1;
@@ -146,7 +179,7 @@ function startTimer(time){
         if(time < 0){
             clearTimeout(counter);
             timeCount.textContent = "00";
-            timeOff.textContent= "time off"
+            // timeOff.textContent= "time off"
 
             let correctAns = questions[que_count].answer;
             let allOptions = option_list.children.length;
