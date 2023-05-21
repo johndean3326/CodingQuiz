@@ -9,12 +9,12 @@ In this project, I created a webpage that takes the user through a quiz of Eight
 
 
 
-At the end of the quiz, the user is shown their score and is also able to enter their initials for the highscores page. 
+unfortunately there are still some issues but honestly im mostly looking to increase my score by the two points needed to pass this challenge and i feel that i have gained a lot of functionality from its last iteration, hopefully atleast 2 points worth. Thank you for your understanding. 
 
-The highscores page will show the score of each unique initial entered. 
+ 
 
 ## Screen Shots
-<img src = "img\2023-05-20 (1).png">
+<img src = "img\2023-05-20 (3).png">
 
 
 ## Links
